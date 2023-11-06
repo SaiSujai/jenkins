@@ -1,0 +1,47 @@
+/* pipeline {
+   environment {
+     git_url = "https://github.com/sandeepsf94/salilkul.git"
+     branch = "master"
+   }
+
+ agent {label 'dev'}
+ // agent any
+ 
+  stages {
+    stage('Pull Source') {
+      steps {
+        git credentialsId: 'ae0694ea-19a8-4210-9ce4-fcf1e51375ed', branch: "${branch}", url: "${git_url}"
+       
+      }
+     }
+    
+    stage('Maven Build') {
+     steps { 
+        sh "if [ -f \"pom.xml\" ];then mvn -B -f pom.xml clean package && cp target/*.jar .;else echo \"This is not a Java Project\";fi"
+          
+     }
+    }
+     stage('Docker Image Build') {     
+        steps {
+              sh 'sudo docker build -t demo-image1 . '
+               }
+             }
+        stage('Docker image push') {
+           steps {
+                // sh 'aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin 738275578260.dkr.ecr.ap-south-1.amazonaws.com'
+                 withCredentials([usernamePassword(credentialsId: '6b60484c-e184-4668-b9d7-c402672d2a4f', passwordVariable: 'Password', usernameVariable: 'Username')]) {
+                 sh "sudo docker login -u ${env.Username} -p ${env.Password}"
+                 sh "sudo docker image tag demo-image demo-image:${BUILD_NUMBER}"
+                 sh "sudo docker image tag demo-image salilkul87/demo-image:${BUILD_NUMBER}"
+                 sh "sudo docker image push salilkul87/demo-image:${BUILD_NUMBER}" 
+               } 
+             }  
+          }
+    }
+  post {
+    always {
+      deleteDir() /* cleanup the workspace */
+    }
+  }
+  }
+*/
