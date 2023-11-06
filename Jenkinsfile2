@@ -29,18 +29,18 @@ pipeline {
         stage('Docker image push') {
            steps {
                 // sh 'aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin 738275578260.dkr.ecr.ap-south-1.amazonaws.com'
-                 withCredentials([usernamePassword(credentialsId: '6b60484c-e184-4668-b9d7-c402672d2a4f', passwordVariable: 'Password', usernameVariable: 'Username')]) {
+                 withCredentials([usernamePassword(credentialsId: 'acf8820b-f6fa-4db6-bc59-ec01ef931cfd', passwordVariable: 'Password', usernameVariable: 'Username')]) {
                  sh "sudo docker login -u ${env.Username} -p ${env.Password}"
                  sh "sudo docker image tag demo-image demo-image:${BUILD_NUMBER}"
-                 sh "sudo docker image tag demo-image salilkul87/demo-image:${BUILD_NUMBER}"
-                 sh "sudo docker image push salilkul87/demo-image:${BUILD_NUMBER}" 
+                 sh "sudo docker image tag demo-image sandeepsf94/demo-image:${BUILD_NUMBER}"
+                 sh "sudo docker image push sandeepsf94/demo-image:${BUILD_NUMBER}" 
                } 
              }  
           }
     }
-  post {
-    always {
-      deleteDir() /* cleanup the workspace */
-    }
-  }
+//  post {
+  //  always {
+    //  deleteDir() /* cleanup the workspace */
+    //}
+  //}
   }
