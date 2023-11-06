@@ -3,7 +3,7 @@ pipeline{
     stages{
       stage('1') {
         steps{
-                    sh "sudo docker pull nginx"
+                    sh "sudo git branch test11"
               
 }
 }
