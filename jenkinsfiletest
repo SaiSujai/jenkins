@@ -2,7 +2,7 @@ pipeline{
   agent any
     stages{
       stage('1') {
-        docker image pull nginx
+        sh 'docker image pull nginx
                   }
             }
 }
