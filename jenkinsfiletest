@@ -2,8 +2,11 @@ pipeline{
   agent any
     stages{
       stage('1') {
+        steps{
                     sh "sudo docker pull nginx"
-                  }
+              
+}
+}
             }
         
         }
